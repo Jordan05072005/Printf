@@ -48,7 +48,7 @@ void	display_int(long nbr, t_arg *arg, size_t *size)
 	else if (arg->flags == 'X')
 		putnbr_hexa(nbr, HEXAUPPERCASE, arg);
 	(*size) += putchar_n(arg->space, ' ', (in_str(arg->sign, '-') != -1));
-	(*size) += arg->size;
+	(*size) += arg->size_abs;
 }
 
 size_t	display_char(char c, t_arg *arg)

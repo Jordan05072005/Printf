@@ -18,12 +18,12 @@ size_t	gestion_print(const char *format, va_list ap, int nbr_arg, t_arg *arg)
 
 	size[0] = 0;
 	size[1] = 0;
-	while (nbr_arg--)
+	while (nbr_arg-- && arg)
 	{
 		size[0] = display(format, size[0], &(size[1]));
 		if (arg->precision == -1)
-			(arg->next)->precision = va_arg(ap, int);
-		else if (arg->flags == 'd' || arg->flags == 'i')
+			arg->precision = va_arg(ap, int);
+		if (arg->flags == 'd' || arg->flags == 'i')
 			display_int(va_arg(ap, int), arg, &(size[1]));
 		else if (arg->flags == 'x' || arg->flags == 'X' || arg->flags == 'u')
 			display_int(va_arg(ap, unsigned int), arg, &(size[1]));
