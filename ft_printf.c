@@ -9,7 +9,6 @@
 /*   Updated: 2024/09/19 23:32:51 by jguaglio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "ft_printf.h"
 
 size_t	gestion_print(const char *format, va_list ap, int nbr_arg, t_arg *arg)
@@ -21,7 +20,7 @@ size_t	gestion_print(const char *format, va_list ap, int nbr_arg, t_arg *arg)
 	while (nbr_arg--)
 	{
 		size[0] = display(format, size[0], &(size[1]));
-			if (arg->precision == -1)
+		if (arg->precision == -1)
 			arg->precision = va_arg(ap, int);
 		if (arg->flags == 'd' || arg->flags == 'i')
 			display_int(va_arg(ap, int), arg, &(size[1]));
