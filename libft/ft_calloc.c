@@ -1,30 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jguaglio <guaglio.jordan@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/20 00:38:43 by jguaglio          #+#    #+#             */
-/*   Updated: 2024/09/20 00:38:43 by jguaglio         ###   ########.fr       */
+/*   Created: 2024/09/10 13:06:22 by jguaglio          #+#    #+#             */
+/*   Updated: 2024/09/10 13:06:22 by jguaglio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-void	free_arg(t_arg *arg)
+void	*ft_calloc(size_t nmemb, size_t size)
 {
-	t_arg	*cpy;
+	void	*dst;
 
-	while (arg)
-	{
-		if (arg->flags == 'u' || arg->flags == 'd' || arg->flags == 'i')
-			free(arg->str);
-		else if (arg->flags == 'x' || arg->flags == 'X')
-			free(arg->str);
-		cpy = arg;
-		arg = arg->next;
-		free(cpy);
-	}
-	free(arg);
+	if (!((nmemb == 0) == (size == 0)))
+		return (NULL);
+	dst = malloc(nmemb * size);
+	if (!dst)
+		return (NULL);
+	ft_bzero(dst, nmemb * size);
+	return (dst);
 }

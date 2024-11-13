@@ -12,31 +12,22 @@
 
 #include "ft_printf.h"
 
-t_arg	*lst_new(char *sign, int *space, char flags, int point)
+t_arg	*lst_new(char *sign, int space, char flags, int precision)
 {
 	t_arg	*new;
+	int		i;
 
+	i = -1;
 	new = malloc(sizeof(t_arg));
-	new->space = malloc(sizeof(int) * 3);
-	new->sign = malloc(sizeof(char) * 5);
-	if (new == NULL || new->space == NULL)
+	if (new == NULL)
 		return (NULL);
 	new->flags = flags;
-	if (sign)
-	{
-		new->sign[0] = sign[0];
-		new->sign[1] = sign[1];
-		new->sign[2] = sign[2];
-		new->sign[3] = sign[3];
-		new->sign[4] = '\0';
-	}
-	if (space)
-	{
-		new->space[0] = space[0];
-		new->space[1] = space[1];
-		new->space[2] = 0;
-	}
-	new->point = point;
+	while (sign && sign[++i])
+		new->sign[i] = sign[i];
+	new->str = NULL;
+	new->sign[i] = '\0';
+	new->space = space;
+	new->precision = precision;
 	new->next = NULL;
 	return (new);
 }

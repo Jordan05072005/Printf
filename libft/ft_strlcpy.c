@@ -1,30 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jguaglio <guaglio.jordan@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/20 00:38:43 by jguaglio          #+#    #+#             */
-/*   Updated: 2024/09/20 00:38:43 by jguaglio         ###   ########.fr       */
+/*   Created: 2024/09/10 13:08:07 by jguaglio          #+#    #+#             */
+/*   Updated: 2024/09/10 13:08:07 by jguaglio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-void	free_arg(t_arg *arg)
+size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
-	t_arg	*cpy;
+	size_t	i;
 
-	while (arg)
+	i = 0;
+	if (size <= 0)
+		return (ft_strlen(src));
+	while (src[i] && i < (size - 1))
 	{
-		if (arg->flags == 'u' || arg->flags == 'd' || arg->flags == 'i')
-			free(arg->str);
-		else if (arg->flags == 'x' || arg->flags == 'X')
-			free(arg->str);
-		cpy = arg;
-		arg = arg->next;
-		free(cpy);
+		dst[i] = src[i];
+		i++;
 	}
-	free(arg);
+	dst[i] = '\0';
+	return (ft_strlen(src));
 }

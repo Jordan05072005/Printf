@@ -12,33 +12,35 @@
 
 #include "ft_printf.h"
 
-int	in_str(char *str, char c, int (*f)(char))
+int	p_valid(char c)
 {
 	int	i;
 
 	i = 0;
-	if (f)
+	while (FLAGS_IMPLEMENT[i])
 	{
-		while (str[i] && !f(str[i]))
-		{
-			if (str[i] == c)
-				return (c);
-			i++;
-		}
+		if (FLAGS_IMPLEMENT[i] == c)
+			return (1);
+		i++;
 	}
-	else
+	return (0);
+}
+
+int	in_str(char *str, char c)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && !p_valid(str[i]))
 	{
-		while (str[i])
-		{
-			if (str[i] == c)
-				return (c);
-			i++;
-		}
+		if (str[i] == c)
+			return (c);
+		i++;
 	}
 	return (-1);
 }
 
-void	putchar_n(int n, char w, int lock)
+int	putchar_n(int n, char w, int lock)
 {
 	int	i;
 
@@ -51,14 +53,7 @@ void	putchar_n(int n, char w, int lock)
 			i++;
 		}
 	}
-}
-
-void	ft_putstr_arg(char *s, int fd, t_arg *arg)
-{
-	if (in_str(arg->sign, '.', &p_valid) != -1 || arg->point != 0)
-		write(fd, s, (arg->point));
-	else
-		write(fd, s, ft_strlen(s));
+	return (i);
 }
 
 int	ft_abs(int nb)

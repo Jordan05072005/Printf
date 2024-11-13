@@ -1,30 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jguaglio <guaglio.jordan@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/20 00:38:43 by jguaglio          #+#    #+#             */
-/*   Updated: 2024/09/20 00:38:43 by jguaglio         ###   ########.fr       */
+/*   Created: 2024/09/11 11:13:36 by jguaglio          #+#    #+#             */
+/*   Updated: 2024/09/11 11:13:36 by jguaglio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-void	free_arg(t_arg *arg)
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	t_arg	*cpy;
+	size_t	i;
 
-	while (arg)
+	i = 0;
+	while (i < n)
 	{
-		if (arg->flags == 'u' || arg->flags == 'd' || arg->flags == 'i')
-			free(arg->str);
-		else if (arg->flags == 'x' || arg->flags == 'X')
-			free(arg->str);
-		cpy = arg;
-		arg = arg->next;
-		free(cpy);
+		if (((unsigned char *)s1)[i] > ((unsigned char *)s2)[i])
+			return (((unsigned char *)s1)[i] - ((unsigned char *)s2)[i]);
+		else if (((unsigned char *)s1)[i] < ((unsigned char *)s2)[i])
+			return (((unsigned char *)s1)[i] - ((unsigned char *)s2)[i]);
+		i++;
 	}
-	free(arg);
+	return (0);
 }

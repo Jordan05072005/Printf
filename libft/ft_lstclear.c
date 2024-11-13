@@ -1,30 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jguaglio <guaglio.jordan@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/20 00:38:43 by jguaglio          #+#    #+#             */
-/*   Updated: 2024/09/20 00:38:43 by jguaglio         ###   ########.fr       */
+/*   Created: 2024/09/12 12:53:56 by jguaglio          #+#    #+#             */
+/*   Updated: 2024/09/12 12:53:56 by jguaglio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-void	free_arg(t_arg *arg)
+void	ft_lstclear(t_list **lst, void (*del)(void *))
 {
-	t_arg	*cpy;
-
-	while (arg)
-	{
-		if (arg->flags == 'u' || arg->flags == 'd' || arg->flags == 'i')
-			free(arg->str);
-		else if (arg->flags == 'x' || arg->flags == 'X')
-			free(arg->str);
-		cpy = arg;
-		arg = arg->next;
-		free(cpy);
-	}
-	free(arg);
+	if (!(*lst) || !del)
+		return ;
+	if ((*lst)->next != NULL)
+		ft_lstclear(&(*lst)->next, del);
+	del((*lst)->content);
+	free(*lst);
+	*lst = NULL;
 }

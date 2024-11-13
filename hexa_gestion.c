@@ -12,15 +12,19 @@
 
 #include "ft_printf.h"
 
-void	put_ox(t_arg *arg)
+int	put_ox(t_arg *arg)
 {
-	if (in_str(arg->sign, '#', &p_valid) != -1)
+	int	i;
+
+	i = 0;
+	if (in_str(arg->sign, '#') != -1)
 	{
 		if (arg->flags == 'x')
-			write(1, "0x", 2);
+			i += write(1, "0x", 2);
 		else if (arg->flags == 'X')
-			write(1, "0X", 2);
+			i += write(1, "0X", 2);
 	}
+	return (i);
 }
 
 int	give_indice(char c, char *base)
@@ -60,11 +64,11 @@ int	hexa_len(long unsigned int nbr, t_arg *arg)
 	long	i;
 
 	i = 1;
-	if (arg->point != 0 && nbr == 0)
+	if (arg->precision != 0 && nbr == 0)
 		i = 0;
 	while (nbr > (long unsigned int)power(16, i) && power(16, i) != 0)
 		i++;
-	if (nbr != 0 && in_str(arg->sign, '#', &p_valid) != -1)
+	if (nbr != 0 && in_str(arg->sign, '#') != -1)
 		i = i + 2;
 	return (i);
 }

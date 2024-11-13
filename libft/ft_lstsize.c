@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jguaglio <guaglio.jordan@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/20 00:38:43 by jguaglio          #+#    #+#             */
-/*   Updated: 2024/09/20 00:38:43 by jguaglio         ###   ########.fr       */
+/*   Created: 2024/09/12 12:41:30 by jguaglio          #+#    #+#             */
+/*   Updated: 2024/09/12 12:41:30 by jguaglio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-void	free_arg(t_arg *arg)
+int	ft_lstsize(t_list *lst)
 {
-	t_arg	*cpy;
+	t_list	*cpy;
+	int		i;
 
-	while (arg)
+	cpy = lst;
+	i = 0;
+	while (cpy != NULL)
 	{
-		if (arg->flags == 'u' || arg->flags == 'd' || arg->flags == 'i')
-			free(arg->str);
-		else if (arg->flags == 'x' || arg->flags == 'X')
-			free(arg->str);
-		cpy = arg;
-		arg = arg->next;
-		free(cpy);
+		cpy = cpy->next;
+		i++;
 	}
-	free(arg);
+	return (i);
 }

@@ -12,12 +12,13 @@
 
 #include "ft_printf.h"
 
-int	display(const char *str, int i)
+int	display(const char *str, int i, size_t *size)
 {
 	while (str[i] && str[i] != '%')
 	{
 		write(1, &str[i], 1);
 		i++;
+		(*size)++;
 	}
 	i++;
 	while (str[i] && p_valid(str[i]) == 0)
@@ -25,61 +26,70 @@ int	display(const char *str, int i)
 	return (i + 1);
 }
 
-void	display_int(long nbr, t_arg *arg)
+void	display_int(long nbr, t_arg *arg, size_t *size)
 {
 	set_param_int(nbr, &arg);
-	if (nbr == 0 && in_str(arg->sign, '.', &p_valid) != -1 && arg->point == 0)
+	if (in_str(arg->sign, '0') != -1 && in_str(arg->sign, '.') == -1)
 	{
-		putchar_n(arg->space[1], ' ', 1);
-		return ;
+		arg->precision = arg->space;
+		arg->space = 0;
 	}
-	putchar_n(arg->space[2], ' ', (in_str(arg->sign, '-', &p_valid) == -1));
-	if (nbr < 0)
-		write(1, "-", 1);
-	put_ox(arg);
-	if (in_str(arg->sign, '.', &p_valid) != -1 || arg->point != 0)
-		putchar_n(arg->nbr_zero, '0', 1);
-	if (in_str(arg->sign, '+', &p_valid) != -1)
-		write(1, "+", 1);
-	if ((arg->flags == 'd' || arg->flags == 'i') && nbr == -2147483648)
-		write(1, "2", 1);
-	if (arg->flags == 'd' || arg->flags == 'i')
+	(*size) += putchar_n(arg->space, ' ', (in_str(arg->sign, '-') == -1));
+	(*size) += putchar_n(1, '-', nbr < 0);
+	(*size) += putchar_n(1, '+', (in_str(arg->sign, '+') != -1) && nbr > 0);
+	(*size) += put_ox(arg);
+	(*size) += putchar_n(arg->precision, '0', 1);
+	if (ft_strchr(INT_FLAGS, arg->flags) && nbr < 0)
+		ft_putstr_fd((arg->str) + 1, 1);
+	else if (ft_strchr(INT_FLAGS, arg->flags) && nbr >= 0)
 		ft_putstr_fd(arg->str, 1);
-	else if (arg->flags == 'u')
-		ft_putstr_fd(arg->str, 1);
-	else if (arg->flags == 'x' && (arg->nbr_zero == 0 || nbr != 0))
+	else if (arg->flags == 'x')
 		putnbr_hexa(nbr, HEXALOWERCASE, arg);
-	else if (arg->flags == 'X' && (arg->nbr_zero == 0 || nbr != 0))
+	else if (arg->flags == 'X')
 		putnbr_hexa(nbr, HEXAUPPERCASE, arg);
-	putchar_n(arg->space[2], ' ', (in_str(arg->sign, '-', &p_valid) != -1));
+	(*size) += putchar_n(arg->space, ' ', (in_str(arg->sign, '-') != -1));
+	(*size) += arg->size;
 }
 
-void	display_char(char c, t_arg *arg)
+size_t	display_char(char c, t_arg *arg)
 {
+	size_t	size;
+
+	size = 0;
 	set_param_char(c, &arg);
-	putchar_n(arg->space[2], ' ', (in_str(arg->sign, '-', &p_valid) == -1));
-	write(1, &c, 1);
-	putchar_n(arg->space[2], ' ', (in_str(arg->sign, '-', &p_valid) != -1));
+	size += putchar_n(arg->space, ' ', (in_str(arg->sign, '-') == -1));
+	size += write(1, &c, 1);
+	size += putchar_n(arg->space, ' ', (in_str(arg->sign, '-') != -1));
+	return (size);
 }
 
-void	display_str(char *str, t_arg *arg)
+size_t	display_str(char *str, t_arg *arg)
 {
+	size_t	size;
+
+	size = 0;
 	set_param_str(str, &arg);
-	putchar_n(arg->space[2], ' ', (in_str(arg->sign, '-', &p_valid) == -1));
-	ft_putstr_arg(arg->str, 1, arg);
-	putchar_n(arg->space[2], ' ', (in_str(arg->sign, '-', &p_valid) != -1));
+	size += putchar_n(arg->space, ' ', (in_str(arg->sign, '-') == -1));
+	size += write(1, arg->str, arg->size);
+	size += putchar_n(arg->space, ' ', (in_str(arg->sign, '-') != -1));
+	return (size);
 }
 
-void	display_void(void *adrr, t_arg *arg)
+size_t	display_void(void *adrr, t_arg *arg)
 {
+	size_t	size;
+
+	size = 0;
 	set_param_void(adrr, &arg);
-	putchar_n(arg->space[2], ' ', (in_str(arg->sign, '-', &p_valid) == -1));
+	size += putchar_n(arg->space, ' ', (in_str(arg->sign, '-') == -1));
 	if (adrr)
 	{
-		ft_putstr_arg("0x", 1, arg);
+		size += write(1, "0x", 2);
 		putnbr_hexa((long unsigned int)adrr, HEXALOWERCASE, arg);
+		size += hexa_len((long unsigned int)adrr, arg);
 	}
 	else
-		ft_putstr_arg("(nil)", 1, arg);
-	putchar_n(arg->space[2], ' ', (in_str(arg->sign, '-', &p_valid) != -1));
+		size += write(1, "(nil)", arg->size);
+	size += putchar_n(arg->space, ' ', (in_str(arg->sign, '-') != -1));
+	return (size);
 }

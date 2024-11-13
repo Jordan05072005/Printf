@@ -1,30 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jguaglio <guaglio.jordan@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/20 00:38:43 by jguaglio          #+#    #+#             */
-/*   Updated: 2024/09/20 00:38:43 by jguaglio         ###   ########.fr       */
+/*   Created: 2024/09/10 13:08:14 by jguaglio          #+#    #+#             */
+/*   Updated: 2024/09/10 13:08:14 by jguaglio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-void	free_arg(t_arg *arg)
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	t_arg	*cpy;
+	char	*strfinal;
+	int		i;
 
-	while (arg)
+	if (s == NULL || f == NULL)
+		return (NULL);
+	i = 0;
+	strfinal = malloc(sizeof(char) * (ft_strlen(s) + 1));
+	if (strfinal == NULL)
+		return (NULL);
+	while (s[i])
 	{
-		if (arg->flags == 'u' || arg->flags == 'd' || arg->flags == 'i')
-			free(arg->str);
-		else if (arg->flags == 'x' || arg->flags == 'X')
-			free(arg->str);
-		cpy = arg;
-		arg = arg->next;
-		free(cpy);
+		strfinal[i] = f(i, s[i]);
+		i++;
 	}
-	free(arg);
+	strfinal[i] = '\0';
+	return (strfinal);
 }

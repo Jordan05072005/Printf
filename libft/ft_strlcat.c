@@ -1,30 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jguaglio <guaglio.jordan@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/20 00:38:43 by jguaglio          #+#    #+#             */
-/*   Updated: 2024/09/20 00:38:43 by jguaglio         ###   ########.fr       */
+/*   Created: 2024/09/10 13:08:03 by jguaglio          #+#    #+#             */
+/*   Updated: 2024/09/10 13:08:03 by jguaglio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-void	free_arg(t_arg *arg)
+size_t	ft_strlcat(char *dst, const char *src, size_t size)
 {
-	t_arg	*cpy;
+	size_t	i;
+	size_t	j;
+	size_t	lendest;
 
-	while (arg)
+	i = 0;
+	j = 0;
+	lendest = ft_strlen(dst);
+	while (dst[i])
+		i++;
+	while (src[j] && (j + i + 1) < size)
 	{
-		if (arg->flags == 'u' || arg->flags == 'd' || arg->flags == 'i')
-			free(arg->str);
-		else if (arg->flags == 'x' || arg->flags == 'X')
-			free(arg->str);
-		cpy = arg;
-		arg = arg->next;
-		free(cpy);
+		dst[i + j] = src[j];
+		j++;
 	}
-	free(arg);
+	if (size > j)
+		dst[i + j] = '\0';
+	if (size <= lendest)
+		return (ft_strlen(src) + size);
+	else
+		return (ft_strlen(src) + lendest);
 }
