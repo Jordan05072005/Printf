@@ -52,6 +52,8 @@ int	gestion_space(char **str, t_arg **temp)
 	int	i;
 
 	i = 5;
+	if (in_str(*str, ' ') != -1)
+		(*temp)->sign[i++] = ' ';
 	while (!ft_isdigit(*str[0]) && !p_valid(*str[0]))
 	{
 		if (*str[0] == '.')
@@ -59,8 +61,6 @@ int	gestion_space(char **str, t_arg **temp)
 		(*str)++;
 	}
 	space = ft_atoi(*str);
-	if (in_str(*str, ' ') != -1)
-		(*temp)->sign[i++] = ' ';
 	if (*str[0] == '0')
 		(*temp)->sign[i++] = '0';
 	(*temp)->sign[i++] = '\0';

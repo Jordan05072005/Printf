@@ -18,7 +18,7 @@ void	set_param_int2(long nbr, t_arg **arg)
 	if ((*arg)->precision < 0)
 		(*arg)->precision = 0;
 	(*arg)->space -= ((*arg)->size + (*arg)->precision);
-	if ((*arg)->space < 1 && in_str((*arg)->sign, ' ') != -1 && nbr > 0)
+	if ((*arg)->space < 1 && in_str((*arg)->sign, ' ') != -1 && nbr >= 0)
 		(*arg)->space = 1;
 	if (in_str((*arg)->sign, '+') != -1)
 		(*arg)->space--;
@@ -57,8 +57,6 @@ void	set_param_str(char *str, t_arg **arg)
 	if ((*arg)->precision < (*arg)->size && in_str((*arg)->sign, '.') != -1)
 		(*arg)->size = (*arg)->precision;
 	((*arg)->space) -= (*arg)->size;
-	if ((*arg)->space < 1 && in_str((*arg)->sign, ' ') != -1)
-		(*arg)->space = 1;
 }
 
 void	set_param_char(char c, t_arg **arg)

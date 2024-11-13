@@ -36,8 +36,8 @@ void	display_int(long nbr, t_arg *arg, size_t *size)
 	}
 	(*size) += putchar_n(arg->space, ' ', (in_str(arg->sign, '-') == -1));
 	(*size) += putchar_n(1, '-', nbr < 0);
-	(*size) += putchar_n(1, '+', (in_str(arg->sign, '+') != -1) && nbr > 0);
-	(*size) += put_ox(arg);
+	(*size) += putchar_n(1, '+', (in_str(arg->sign, '+') != -1) && nbr >= 0);
+	put_ox(arg, nbr);
 	(*size) += putchar_n(arg->precision, '0', 1);
 	if (ft_strchr(INT_FLAGS, arg->flags) && nbr < 0)
 		ft_putstr_fd((arg->str) + 1, 1);

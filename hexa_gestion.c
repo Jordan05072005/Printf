@@ -12,12 +12,12 @@
 
 #include "ft_printf.h"
 
-int	put_ox(t_arg *arg)
+int	put_ox(t_arg *arg, long nbr)
 {
 	int	i;
 
 	i = 0;
-	if (in_str(arg->sign, '#') != -1)
+	if (in_str(arg->sign, '#') != -1 && nbr != 0)
 	{
 		if (arg->flags == 'x')
 			i += write(1, "0x", 2);
@@ -66,7 +66,7 @@ int	hexa_len(long unsigned int nbr, t_arg *arg)
 	i = 1;
 	if (arg->precision != 0 && nbr == 0)
 		i = 0;
-	while (nbr > (long unsigned int)power(16, i) && power(16, i) != 0)
+	while (nbr >= (long unsigned int)power(16, i) && power(16, i) != 0)
 		i++;
 	if (nbr != 0 && in_str(arg->sign, '#') != -1)
 		i = i + 2;

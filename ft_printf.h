@@ -38,7 +38,7 @@ typedef struct s_arg
 // hexa_gestion.c
 void	putnbr_hexa(long unsigned int nb, char *base, t_arg *arg);
 int		hexa_len(long unsigned int nbr, t_arg *arg);
-int		put_ox(t_arg *arg);
+int		put_ox(t_arg *arg, long nbr);
 
 //lst_function.c
 t_arg	*lst_new(char *sign, int space, char flags, int precision);
