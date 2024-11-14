@@ -19,7 +19,7 @@ static int	ft_is_sep(char charset, char c)
 	return (0);
 }
 
-int	strlen_char(char charset, char *str, int j)
+static int	strlen_char(char charset, char *str, int j)
 {
 	int	i;
 
@@ -52,7 +52,7 @@ static int	ft_nbr_word(char *str, char charset)
 	return (counter);
 }
 
-void	free_str(char **str)
+static void	free_str(char **str)
 {
 	int	i;
 
