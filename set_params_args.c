@@ -65,7 +65,7 @@ void	set_param_char(char c, t_arg **arg)
 	(*arg)->space -= 1;
 }
 
-void	set_param_void(void *adrr, t_arg **arg) // Check
+void	set_param_void(void *adrr, t_arg **arg)
 {
 	(*arg)->size = hexa_len((long unsigned int)adrr, *arg) + 2;
 	if (adrr == NULL)
